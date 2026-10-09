@@ -15,7 +15,7 @@ cp "$ROOT/scripts/mozconfig.android" "$UP/mozconfig"
 export MOZCONFIG="$UP/mozconfig"
 
 ./mach --no-interactive bootstrap \
-  --application-choice=mobile_android_artifact_mode --no-system-changes
+  --application-choice=mobile_android_artifact_mode
 echo "--- ~/.mozbuild after bootstrap:"; ls -la "$HOME/.mozbuild" || true
 ./mach configure
 
