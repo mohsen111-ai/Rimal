@@ -1,0 +1,26 @@
+diff --git a/settings.gradle b/settings.gradle
+index 5f09bd4db..20be770ad 100644
+--- a/settings.gradle
++++ b/settings.gradle
+@@ -44,12 +44,19 @@ if (gradle.ext.mozconfig.substs.MOZ_APPSERVICES_IN_TREE) {
+ // but it's hard to automatically arrange better.
+ System.setProperty('android.home', gradle.mozconfig.substs.ANDROID_SDK_ROOT)
+ 
++// Sahara: when a published GeckoView is pinned, do not build GeckoView from source.
++def saharaPinnedGeckoView = System.getenv("SAHARA_GECKOVIEW") != null
++
+ include ':annotations', ':messaging_example', ':port_messaging_example'
+-include ':geckoview'
++if (!saharaPinnedGeckoView) {
++    include ':geckoview'
++}
+ include ':android-components'
+ 
+ project(':annotations').projectDir = new File("${gradle.mozconfig.topsrcdir}/mobile/android/annotations")
+-project(':geckoview').projectDir = new File("${gradle.mozconfig.topsrcdir}/mobile/android/geckoview")
++if (!saharaPinnedGeckoView) {
++    project(':geckoview').projectDir = new File("${gradle.mozconfig.topsrcdir}/mobile/android/geckoview")
++}
+ project(':android-components').projectDir = new File("${gradle.mozconfig.topsrcdir}/mobile/android/android-components")
+ 
+ if (!gradle.mozconfig.substs.MOZ_ANDROID_SUBPROJECT || gradle.mozconfig.substs.MOZ_ANDROID_SUBPROJECT == "fenix") {
