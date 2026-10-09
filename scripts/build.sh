@@ -19,6 +19,12 @@ export MOZCONFIG="$UP/mozconfig"
 echo "--- ~/.mozbuild after bootstrap:"; ls -la "$HOME/.mozbuild" || true
 ./mach configure
 
+# Gradle's root build reads objdir/buildid.h, normally written by a full `mach build`.
+# We don't compile Gecko, so write the one line it needs, using the build id of the
+# pinned GeckoView (the last part of its version).
+mkdir -p "$UP/objdir-frontend"
+echo "#define MOZ_BUILDID ${GV##*.}" > "$UP/objdir-frontend/buildid.h"
+
 # Pin the published, release-channel GeckoView (see patches/0001).
 export SAHARA_GECKOVIEW="org.mozilla.geckoview:geckoview-omni:${GV}"
 
