@@ -16,6 +16,7 @@ export MOZCONFIG="$UP/mozconfig"
 
 ./mach --no-interactive bootstrap \
   --application-choice=mobile_android_artifact_mode --no-system-changes
+echo "--- ~/.mozbuild after bootstrap:"; ls -la "$HOME/.mozbuild" || true
 ./mach configure
 
 # Pin the published, release-channel GeckoView (see patches/0001).
